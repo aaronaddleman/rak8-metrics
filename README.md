@@ -43,3 +43,17 @@ point browser to localhost
 ```
 http://localhost:9102/metrics
 ```
+
+## services
+
+### grafana
+
+1. get the pod name for grafana
+1. start port forward
+1. point browser
+
+```
+kubectl get pods -n monitoring
+kubectl port-forward -n monitoring pod/grafana-5f8959599b-hntrt 3000:3000
+http://localhost:3000
+```
