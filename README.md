@@ -10,6 +10,15 @@ Run
 bash make.sh
 ```
 
+## deploying all the things
+
+After you have done your building... do your deploying with
+
+```
+kubectl apply -f manifests/setup
+kubectl apply -f manifests
+```
+
 ## dashboard
 
 1. apply service account
