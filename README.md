@@ -10,6 +10,28 @@ Run
 bash make.sh
 ```
 
+## dashboard
+
+1. apply service account
+
+```
+kubectl apply -f admin-service-account.yaml
+```
+
+then to use the account...
+
+1. get service token
+1. start proxy
+1. point browser
+
+```
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin | awk '{print $1}')
+kubectl proxy
+# goto url
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login
+# enter in the token from the first step
+```
+
 ## sending data
 
 ### statsd
