@@ -17,7 +17,7 @@ local kp =
         kubeRbacProxy: 'v0.5.0',
       //   addonResizer: '2.3',
       //   nodeExporter: 'v0.18.1',
-      //   prometheusOperator: 'v0.40.0',
+        prometheusOperator: 'v0.40.0',
         prometheusAdapter: 'v0.7.0',
         grafana: '7.0.3',
       //   configmapReloader: 'latest',
@@ -41,6 +41,16 @@ local kp =
       //   armExporter: 'carlosedp/arm_exporter',
       //   smtpRelay: 'carlosedp/docker-smtp',
       //   elasticExporter: 'carlosedp/elasticsearch-exporter',
+      },
+    },
+    prometheus+:: {
+      prometheus+: {
+        spec+: {
+          additionalScrapeConfigs: {
+            name: 'additional-scrape-configs',
+            key: 'prometheus-additional.yaml'
+          },
+        },
       },
     },
   };
@@ -102,4 +112,39 @@ local kp =
       },
     },
   }
+} +
+
+
+{
+  "statsd-exporter-service.json": {
+    apiVersion: 'v1',
+    kind: 'Service',
+    metadata: {
+      name: 'statsd-exporter-svc',
+      namespace: 'monitoring',
+      labels: {
+        app: 'statsd-exporter',
+      },
+    },
+    spec: {
+      ports: [
+        {
+          name: 'send-tcp',
+          port: 9125,
+          protocol: 'TCP',
+          targetPort: 9125,
+        },
+        {
+          name: 'metrics',
+          port: 9102,
+          protocol: 'TCP',
+          targetPort: 9102,
+        },
+      ],
+      selector: {
+        app: 'statsd-exporter',
+      },
+    },
+  }
 }
+

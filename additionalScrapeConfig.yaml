@@ -1,0 +1,5 @@
+- job_name: statsd
+  honor_timestamps: true
+  dns_sd_configs:
+  - names:
+    - _metrics._tcp.statsd-exporter-svc.monitoring.svc.cluster.local

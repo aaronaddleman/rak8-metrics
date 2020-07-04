@@ -19,6 +19,27 @@ kubectl apply -f manifests/setup
 kubectl apply -f manifests
 ```
 
+add a generic secret file of prometheus-additional.yaml with the name additional-scrape-configs for prometheus to find statsd by DNS SRV
+
+```
+kubectl create secret generic additional-scrape-configs --namespace monitoring --from-file=prometheus-additional.yaml=additionalScrapeConfig.yaml
+```
+
+## finding DNS records
+
+to find dns records, deploy a DNS container and do some digging!
+
+```
+kubectl apply -f dnsutils.yaml
+```
+
+now dig!
+
+```
+kubectl exec -ti dnsutils -- dig +short SRV _metrics._tcp.statsd-exporter-svc.monitoring.svc.cluster.local
+0 100 9102 statsd-exporter-svc.monitoring.svc.cluster.local.
+```
+
 ## dashboard
 
 1. apply service account
