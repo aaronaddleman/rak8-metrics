@@ -42,7 +42,13 @@ kubectl exec -ti dnsutils -- dig +short SRV _metrics._tcp.statsd-exporter-svc.mo
 
 ## dashboard
 
-1. apply service account
+1. deploy
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml
+```
+
+2. apply service account
 
 ```
 kubectl apply -f admin-service-account.yaml
@@ -54,8 +60,10 @@ then to use the account...
 1. start proxy
 1. point browser
 
-```
+```bash
+# get service token
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin | awk '{print $1}')
+# start proxy
 kubectl proxy
 # goto url
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login
